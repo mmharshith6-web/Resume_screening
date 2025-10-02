@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Screening with NLP</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-file-alt"></i>
+                <h1>Resume<span>Screen</span></h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Privacy Notice -->
+        <div class="privacy-banner">
+            <div class="privacy-content">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h4>Your Privacy is Protected</h4>
+                    <p>All processing happens locally in your browser. No data is sent to any server or stored externally.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="hero">
+                <div class="hero-content">
+                    <h2 class="hero-title animate-pop-in">
+                        <span class="highlight">AI-Powered</span> Resume Screening
+                    </h2>
+                    <p class="hero-subtitle animate-fade-in">
+                        Match resumes with job descriptions using advanced NLP techniques
+                    </p>
+                    <div class="cta-buttons animate-slide-up">
+                        <button class="btn btn-primary" id="getStartedBtn">
+                            <i class="fas fa-rocket"></i> Get Started
+                        </button>
+                        <button class="btn btn-secondary" id="learnMoreBtn">
+                            <i class="fas fa-info-circle"></i> Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image animate-float">
+                    <div class="floating-card">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>Resume Analysis</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Screening Section -->
+            <section class="screening-section" id="screening">
+                <div class="section-header">
+                    <h2>Resume Screening</h2>
+                    <p>Enter job description and upload resumes for analysis</p>
+                </div>
+
+                <div class="screening-container">
+                    <div class="job-description-panel panel">
+                        <h3><i class="fas fa-briefcase"></i> Job Description</h3>
+                        <textarea 
+                            id="jobDescription" 
+                            placeholder="Enter the job description here..." 
+                            class="textarea-field"
+                        ></textarea>
+                        <div class="character-count">
+                            <span id="charCount">0</span>/2000 characters
+                        </div>
+                    </div>
+
+                    <div class="resumes-panel panel">
+                        <h3><i class="fas fa-file-upload"></i> Upload Resumes</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <p>Drag & drop resumes here or click to browse</p>
+                            <p class="file-types">Supports PDF and DOCX files</p>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.docx" style="display: none;">
+                        </div>
+                        <div class="file-list" id="fileList"></div>
+                        <div class="upload-progress" id="uploadProgress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span id="progressText">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-process" id="processBtn">
+                        <i class="fas fa-cogs"></i> Process Resumes
+                    </button>
+                    <button class="btn btn-reset" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="results">
+                <div class="section-header">
+                    <h2>Matching Results</h2>
+                    <p>Top candidates ranked by similarity score</p>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Matching Overview</h3>
+                        <div class="chart-tabs">
+                            <button class="chart-tab active" data-chart="score">Score Distribution</button>
+                            <button class="chart-tab" data-chart="skills">Skills Match</button>
+                            <button class="chart-tab" data-chart="decision">Fit/Not Fit</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="scoreChart"></canvas>
+                        <canvas id="skillsChart" style="display: none;"></canvas>
+                        <canvas id="decisionChart" style="display: none;"></canvas>
+                    </div>
+                </div>
+
+                <div class="results-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search candidates...">
+                    </div>
+                    <div class="filter-options">
+                        <select id="filterSelect">
+                            <option value="all">All Candidates</option>
+                            <option value="fit">Fit Only</option>
+                            <option value="not-fit">Not Fit Only</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-export" id="exportBtn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+
+                <div class="results-table-container">
+                    <table class="results-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>Candidate Name</th>
+                                <th>Score</th>
+                                <th>Top Skills</th>
+                                <th>Missing Skills</th>
+                                <th>Decision</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody">
+                            <!-- Results will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn btn-pagination" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="page-info">Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+                    <button class="btn btn-pagination" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section" id="features">
+                <div class="section-header">
+                    <h2>Key Features</h2>
+                    <p>Advanced capabilities for efficient resume screening</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card animate-fade-in-up">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>Multi-Format Support</h3>
+                        <p>Upload resumes in PDF or DOCX formats with automatic text extraction</p>
+                    </div>
+
+                    <div class="feature-card animate-fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>NLP Processing</h3>
+                        <p>Advanced text cleaning and preprocessing using NLTK and SpaCy</p>
+                    </div>
+
+                    <div class="feature-card animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Smart Matching</h3>
+                        <p>TF-IDF vectorization and cosine similarity for accurate matching</p>
+                    </div>
+
+                    <div class="feature-card animate-fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>Skill Analysis</h3>
+                        <p>Identify top skills and missing requirements for each candidate</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about-section" id="about">
+                <div class="section-header">
+                    <h2>About This Project</h2>
+                    <p>How our AI-powered resume screening works</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>
+                            Our Resume Screening application uses Natural Language Processing (NLP) techniques to 
+                            match candidate resumes with job descriptions. By analyzing the semantic content of 
+                            both documents, we can provide accurate similarity scores and rank candidates based 
+                            on their fit for the position.
+                        </p>
+                        <p>
+                            The system processes resumes by extracting text content, cleaning and normalizing 
+                            the text, and then comparing it against the job description using TF-IDF vectorization 
+                            and cosine similarity algorithms. This approach goes beyond simple keyword matching 
+                            to understand the contextual relevance of each candidate.
+                        </p>
+                        <div class="tech-stack">
+                            <h4>Technology Stack</h4>
+                            <div class="tech-icons">
+                                <span class="tech-icon">Python</span>
+                                <span class="tech-icon">NLTK</span>
+                                <span class="tech-icon">SpaCy</span>
+                                <span class="tech-icon">Scikit-learn</span>
+                                <span class="tech-icon">Streamlit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-diagram">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <i class="fas fa-file-upload"></i>
+                                <h5>Upload</h5>
+                                <p>Job description and resumes</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <i class="fas fa-cogs"></i>
+                                <h5>Process</h5>
+                                <p>Text extraction and cleaning</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <i class="fas fa-brain"></i>
+                                <h5>Analyze</h5>
+                                <p>NLP matching and scoring</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <i class="fas fa-chart-bar"></i>
+                                <h5>Results</h5>
+                                <p>Ranked candidates and insights</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Resume<span>Screen</span></h3>
+                    </div>
+                    <p>AI-powered resume screening for efficient hiring</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> mmharshith6@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> 7411801829</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ResumeScreen. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
