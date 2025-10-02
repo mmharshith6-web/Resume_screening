@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "AI-Powered Resume Screening Frontend",
   "scripts": {
-    "start": "cd frontend && python -m http.server 8000",
-    "dev": "cd frontend && python server.py"
+    "start": "serve frontend",
+    "build": "echo 'No build step required for static site'"
   },
   "keywords": [
     "resume",
@@ -13,5 +13,8 @@
     "ai"
   ],
   "author": "Mmharshith6",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
 }
