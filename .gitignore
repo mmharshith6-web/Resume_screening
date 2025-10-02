@@ -143,8 +143,11 @@ Thumbs.db
 
 # Application specific files
 *.csv
-*.json
 *.log
+
+# Allow specific JSON files needed for deployment
+!package.json
+!vercel.json
 
 # Compiled executables
 *.exe

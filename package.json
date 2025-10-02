@@ -1,0 +1,17 @@
+{
+  "name": "resume-screening-frontend",
+  "version": "1.0.0",
+  "description": "AI-Powered Resume Screening Frontend",
+  "scripts": {
+    "start": "cd frontend && python -m http.server 8000",
+    "dev": "cd frontend && python server.py"
+  },
+  "keywords": [
+    "resume",
+    "screening",
+    "nlp",
+    "ai"
+  ],
+  "author": "Mmharshith6",
+  "license": "MIT"
+}
